@@ -2,6 +2,7 @@ package mobi.monaca.framework.plugin;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.io.File;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -15,6 +16,11 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
+
+import mobi.monaca.framework.plugin.MyFileProvider;
+
+// import android.support.v4.content.FileProvider;
 
 /**
  * WebIntent is a PhoneGap plugin that bridges Android intents and web
@@ -253,16 +259,31 @@ public class WebIntent extends CordovaPlugin {
     }
 
     void startActivity(String action, Uri uri, String type, Map<String, String> extras) {
+        
+        // For Android 7.0
+        // add FileProvider
+        if (type.equals("application/pdf")) {
+            MyFileProvider myFileProvider = new MyFileProvider();
+            File file = new File(uri.toString().replace("content://", ""));
+            // Log.e("FileProvider", "extras:" + extras + "  URI:" + uri.toString() +"  file.exists:" + file.exists());
+            uri = myFileProvider.getUriForFile(this.cordova.getActivity().getApplicationContext(),
+                                               this.cordova.getActivity().getApplicationContext().getPackageName(), file);
+        }
+        
         Intent i = (uri != null ? new Intent(action, uri) : new Intent(action));
-
+        
         if (type != null && uri != null) {
             i.setDataAndType(uri, type); //Fix the crash problem with android 2.3.6
+            
+            if (type.equals("application/pdf")) {
+                i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // For Android 7.0
+            }
         } else {
             if (type != null) {
                 i.setType(type);
             }
         }
-
+        
         for (String key : extras.keySet()) {
             String value = extras.get(key);
             // If type is text html, the extra text must sent as HTML
@@ -292,4 +313,5 @@ public class WebIntent extends CordovaPlugin {
 
         this.cordova.getActivity().sendBroadcast(intent);
     }
+
 }

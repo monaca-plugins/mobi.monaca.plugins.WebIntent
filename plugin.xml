@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin
     xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    id="monaca-plugin-webintent"
-    version="1.0.0">
+    id="monaca-plugin-webintent_Lassic"
+    version="1.0.1">
 
     <name>WebIntent</name>
 	<description>
-        This plugin allows starting another application on the device
+        Lassic Custom
     </description>
     <engines>
         <engine name="cordova" version=">=2.9.0" />
@@ -24,8 +24,23 @@
                 <param name="android-package" value="mobi.monaca.framework.plugin.WebIntent"/>
             </feature>
         </config-file>
-
+        
         <source-file src="src/android/WebIntent.java" target-dir="src/mobi/monaca/framework/plugin" />
+        
+        <!-- For Android 7.0 -->
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+             <provider
+                android:name="mobi.monaca.framework.plugin.MyFileProvider"
+                android:authorities="$PACKAGE_NAME"
+                android:exported="false"
+                android:grantUriPermissions="true">
+                <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths" />
+            </provider>
+        </config-file>
+        <source-file src="src/android/MyFileProvider.java" target-dir="src/mobi/monaca/framework/plugin"/>
+        <resource-file src="src/android/res/xml/provider_paths.xml" target="res/xml/provider_paths.xml"/>
 
     </platform>
 </plugin>

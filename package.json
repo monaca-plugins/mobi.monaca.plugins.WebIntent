@@ -1,7 +1,7 @@
 {
-  "name": "monaca-plugin-webintent",
-  "version": "1.0.0",
-  "description": "This plugin allows starting another application on the device",
+  "name": "monaca-plugin-webintent_Lassic",
+  "version": "1.0.1",
+  "description": "Lassic Custom",
   "author": "Monaca Team",
   "license": "COPYRIGHT ASIAL CORPORATION",
   "publishConfig": {
