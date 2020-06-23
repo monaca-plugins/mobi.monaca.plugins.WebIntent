@@ -5,6 +5,6 @@
   "author": "Monaca Team",
   "license": "MIT",
   "publishConfig": {
-    "registry": "http://registry.monaca.io:4873"
+    "registry": "https://npm.monaca.io"
   }
 }
