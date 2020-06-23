@@ -11,7 +11,7 @@
     <engines>
         <engine name="cordova" version=">=2.9.0" />
     </engines>
-    <license>Asial</license>
+    <license>MIT</license>
 
     <js-module src="www/webintent.js" name="Webintent">
         <clobbers target="plugins.webintent" />

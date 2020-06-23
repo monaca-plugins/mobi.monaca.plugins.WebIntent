@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This plugin allows starting another application on the device",
   "author": "Monaca Team",
-  "license": "COPYRIGHT ASIAL CORPORATION",
+  "license": "MIT",
   "publishConfig": {
     "registry": "http://registry.monaca.io:4873"
   }
