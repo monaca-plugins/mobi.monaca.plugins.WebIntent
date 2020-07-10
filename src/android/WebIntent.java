@@ -1,7 +1,15 @@
 package mobi.monaca.framework.plugin;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.File;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -12,9 +20,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.DownloadManager;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
+
+import mobi.monaca.framework.plugin.AsialFileProvider;
 
 /**
  * WebIntent is a PhoneGap plugin that bridges Android intents and web
@@ -253,10 +267,21 @@ public class WebIntent extends CordovaPlugin {
     }
 
     void startActivity(String action, Uri uri, String type, Map<String, String> extras) {
+        Context context = this.cordova.getActivity().getApplicationContext();
+        if (type.equals("application/pdf")) {
+            AsialFileProvider myFileProvider = new AsialFileProvider();
+            if (!uri.toString().startsWith("content://")) {
+                uri = Uri.parse(uri.toString().replace("/data/user/0/", "content://"));
+            }
+        }
+
         Intent i = (uri != null ? new Intent(action, uri) : new Intent(action));
 
         if (type != null && uri != null) {
             i.setDataAndType(uri, type); //Fix the crash problem with android 2.3.6
+            if (type.equals("application/pdf")) {
+                i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // For Android 7.0
+            }
         } else {
             if (type != null) {
                 i.setType(type);
@@ -292,4 +317,5 @@ public class WebIntent extends CordovaPlugin {
 
         this.cordova.getActivity().sendBroadcast(intent);
     }
+
 }

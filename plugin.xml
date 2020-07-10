@@ -2,7 +2,7 @@
 <plugin
     xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="monaca-plugin-webintent"
-    version="1.0.1">
+    version="1.0.2">
 
     <name>WebIntent</name>
 	<description>
@@ -26,6 +26,21 @@
         </config-file>
 
         <source-file src="src/android/WebIntent.java" target-dir="src/mobi/monaca/framework/plugin" />
+        
+        <!-- For Android 7.0 -->
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+             <provider
+                android:name="mobi.monaca.framework.plugin.AsialFileProvider"
+                android:authorities="$PACKAGE_NAME"
+                android:exported="true"
+                android:grantUriPermissions="true">
+                <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths" />
+            </provider>
+        </config-file>
+        <source-file src="src/android/AsialFileProvider.java" target-dir="src/mobi/monaca/framework/plugin"/>
+        <resource-file src="src/android/res/xml/provider_paths.xml" target="res/xml/provider_paths.xml"/>
 
     </platform>
 </plugin>
