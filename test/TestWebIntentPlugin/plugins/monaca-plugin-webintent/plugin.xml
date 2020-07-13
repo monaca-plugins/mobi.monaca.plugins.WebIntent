@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+    xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    id="monaca-plugin-webintent"
+    version="1.0.2">
+
+    <name>WebIntent</name>
+	<description>
+        This plugin allows starting another application on the device
+    </description>
+    <engines>
+        <engine name="cordova" version=">=2.9.0" />
+    </engines>
+    <license>MIT</license>
+
+    <js-module src="www/webintent.js" name="Webintent">
+        <clobbers target="plugins.webintent" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="WebIntent">
+                <param name="android-package" value="mobi.monaca.framework.plugin.WebIntent"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/WebIntent.java" target-dir="src/mobi/monaca/framework/plugin" />
+        
+        <!-- For Android 7.0 -->
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+             <provider
+                android:name="mobi.monaca.framework.plugin.AsialFileProvider"
+                android:authorities="$PACKAGE_NAME"
+                android:exported="false"
+                android:grantUriPermissions="true">
+                <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths" />
+            </provider>
+        </config-file>
+        <source-file src="src/android/AsialFileProvider.java" target-dir="src/mobi/monaca/framework/plugin"/>
+        <resource-file src="src/android/res/xml/provider_paths.xml" target="res/xml/provider_paths.xml"/>
+
+    </platform>
+</plugin>

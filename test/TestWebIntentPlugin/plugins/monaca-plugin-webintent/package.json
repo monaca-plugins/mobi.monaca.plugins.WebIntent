@@ -1,0 +1,10 @@
+{
+  "name": "monaca-plugin-webintent",
+  "version": "1.0.2",
+  "description": "This plugin allows starting another application on the device",
+  "author": "Monaca Team",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.monaca.io"
+  }
+}
